@@ -144,7 +144,7 @@ body{
 .bottom .love{
   text-align:center;
   font-weight: 900;
-  font-size: clamp(16px, 3.6vw, 28px);
+  font-size: clamp(22px, 5vw, 36px);
 
   color: #ff2d55;
   letter-spacing: .3px;
@@ -174,21 +174,26 @@ body{
   z-index: 1;
 }
 
-.stage::after{
+/* Subtle noise to remove color banding */
+.stage::before{
   content:"";
   position:absolute;
-  inset:-40px; /* bleed out to avoid edges */
+  inset:0;
   pointer-events:none;
-  z-index: 1;
+  z-index:0;
 
-  background:
-    radial-gradient(120% 90% at 50% 15%, rgba(255,77,166,.16), transparent 60%),
-    radial-gradient(120% 90% at 50% 95%, rgba(76,195,255,.14), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.34));
+  background-image:
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      rgba(255,255,255,0.015),
+      rgba(255,255,255,0.015) 1px,
+      transparent 1px,
+      transparent 2px
+    );
 
-  filter: blur(14px);     /* ✅ smooths the band */
-  opacity: 0.95;
+  opacity:0.35;
 }
+
 
 
 /* ===== Ground ===== */
@@ -635,9 +640,10 @@ body{
   @keyframes boyMove{
     0%   { left:-40%; transform: translateY(0) scale(1) rotate(0deg); }
     40%  { left:18%;  transform: translateY(0) scale(1) rotate(0deg); }
-    55%  { left:25%;  transform: translateY(0) scale(1) rotate(0deg); }
-    70%  { left:25%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
-    100% { left:25%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    55%  { left:30%;  transform: translateY(0) scale(1) rotate(0deg); }
+    70%  { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
