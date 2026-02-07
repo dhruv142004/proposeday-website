@@ -20,46 +20,99 @@
   }
   
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html, body{
+    height: 100%;
+    margin: 0;
+  }
+  
   body{
-    margin:0;
+    /* IMPORTANT: do NOT center vertically */
+    display: flex;
+    justify-content: center;   /* center horizontally only */
+    align-items: stretch;      /* start from top */
     background:
       radial-gradient(1200px 600px at 50% 15%, rgba(255,77,166,.18), transparent 60%),
       radial-gradient(900px 520px at 20% 80%, rgba(76,195,255,.14), transparent 55%),
-      linear-gradient(135deg, var(--bg1), var(--bg2));
-    color: var(--text);
+      linear-gradient(135deg, #0b1020, #2b124f);
+    overflow: hidden;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    overflow:hidden;
   }
   
-  /* Layout */
   .phone{
-    min-height: 100vh;
-    display:flex;
-    flex-direction:column;
+    height: 100dvh;            /* full phone/laptop viewport */
+    width: min(900px, 100%);   /* laptop fits nicely, phone = full */
+    display: flex;
+    flex-direction: column;
     gap: 12px;
+  
+    /* Safe-area padding for phone notch */
     padding:
       calc(env(safe-area-inset-top) + 14px)
       14px
       calc(env(safe-area-inset-bottom) + 14px);
   }
-  .top, .bottom{
+  
+ /* ===============================
+   CENTER + CLEAR TEXT FIX
+================================ */
+
+/* Top: Happy Propose Day */
+.top{
+    width:100%;
     display:flex;
     justify-content:center;
-    flex: 0 0 auto;
+    align-items:center;
   }
-  .pill{
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.10);
-    border: 1px solid var(--stroke);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 60px rgba(0,0,0,.30);
-    font-weight: 900;
-    letter-spacing: .3px;
-    font-size: clamp(18px, 2.2vw, 30px);
+  
+  .top .pill{
     text-align:center;
+    color: #ff4da6;
+    font-weight: 900;
+  
+    font-size: clamp(28px, 6vw, 48px); /* 👈 BIGGER */
+  
+    background: rgba(0,0,0,0.45);
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+  
+    text-shadow:
+      0 0 6px rgba(255,77,166,0.8),
+      0 0 12px rgba(255,77,166,0.5);
   }
+  
+  
+  
+  /* Bottom: I Love You */
+  .bottom{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  
+  .bottom .love{
+    text-align:center;
+  
+    color: #ff2d55; /* strong red-pink */
+  
+    font-weight: 900;
+  
+    background: rgba(0,0,0,0.45);
+    padding: 10px 20px;
+    border-radius: 999px;
+  
+    border: 1px solid rgba(255,255,255,0.25);
+  
+    /* Clean glow (no blur) */
+    text-shadow:
+      0 0 4px rgba(255,45,85,0.9),
+      0 0 8px rgba(255,45,85,0.6);
+  
+    letter-spacing: 0.3px;
+  }
+  
+  
   .love{ font-size: clamp(16px, 2vw, 26px); }
   
   .stage{
@@ -101,20 +154,46 @@
   .boyTag{ left: 12px; }
   .girlTag{ right: 12px; }
   
-  .hint{
+  /* Replay Hint */
+.hint{
     position:absolute;
     left:50%;
-    bottom: 12px;
+    bottom: 16px;
     transform: translateX(-50%);
-    z-index: 3;
-    padding: 8px 12px;
+    z-index: 20;
+  
+    padding: 8px 16px;
     border-radius: 999px;
-    background: rgba(0,0,0,.35);
-    border: 1px solid rgba(255,255,255,.18);
+  
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.25);
     backdrop-filter: blur(8px);
-    font-weight: 800;
-    font-size: 12px;
-    letter-spacing:.2px;
+  
+    color: #ffffff;
+    font-weight: 900;
+    font-size: clamp(13px, 3.5vw, 16px);
+    letter-spacing: 0.3px;
+    text-align:center;
+  
+    box-shadow:
+      0 0 12px rgba(255,77,166,0.6),
+      0 0 22px rgba(255,77,166,0.4);
+  
+    animation: hintPulse 1.8s ease-in-out infinite;
+  
+    pointer-events:none; /* so it doesn't block taps */
+  }
+  
+  /* Soft glow pulse */
+  @keyframes hintPulse{
+    0%,100%{
+      transform: translateX(-50%) scale(1);
+      opacity: 0.9;
+    }
+    50%{
+      transform: translateX(-50%) scale(1.05);
+      opacity: 1;
+    }
   }
   
   .ground{
@@ -468,5 +547,88 @@
       70%  { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
       100% { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
     }
+  }
+  
+/* ===== Petal Rain (NO transform conflict) ===== */
+.petalsLayer{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index: 9999; /* keep high until you confirm it works */
+  }
+  
+  /* Wrapper: only FALLS (translateY) */
+  .petalWrap{
+    position:absolute;
+    top:-15vh;
+    will-change: transform;
+    animation: fallY linear forwards;
+  }
+  
+  /* Inner: only SWAYS + ROTATES (translateX/rotate) */
+  .petal{
+    width: 16px;
+    height: 12px;
+    border-radius: 70% 30% 75% 25%;
+    opacity: .95;
+    filter: drop-shadow(0 8px 10px rgba(0,0,0,.2));
+    background: rgba(255,170,205,.9);
+    will-change: transform;
+    animation: swayX ease-in-out infinite;
+  }
+  
+  @keyframes fallY{
+    to { transform: translateY(135vh); }
+  }
+  
+  @keyframes swayX{
+    0%,100% { transform: translateX(calc(var(--sway) * -1)) rotate(0deg); }
+    50%     { transform: translateX(var(--sway)) rotate(180deg); }
+  }
+  
+  /* ===== Title slow color shift ===== */
+.top .pill{
+    animation: titleHue 8s ease-in-out infinite;
+  }
+  
+  @keyframes titleHue{
+    0%   { color:#ff4da6; text-shadow: 0 0 6px rgba(255,77,166,.85), 0 0 12px rgba(255,77,166,.55); }
+    33%  { color:#b56cff; text-shadow: 0 0 6px rgba(181,108,255,.85), 0 0 12px rgba(181,108,255,.55); }
+    66%  { color:#4cc3ff; text-shadow: 0 0 6px rgba(76,195,255,.85), 0 0 12px rgba(76,195,255,.55); }
+    100% { color:#ff4da6; text-shadow: 0 0 6px rgba(255,77,166,.85), 0 0 12px rgba(255,77,166,.55); }
+  }
+
+ /* ===== Sparkles (always visible) ===== */
+.sparkle{
+    position: fixed;              /* IMPORTANT: fixed, not absolute */
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.98);
+    box-shadow:
+      0 0 10px rgba(255,255,255,.85),
+      0 0 18px rgba(255,77,166,.60);
+    pointer-events:none;
+    z-index: 99999;               /* above everything */
+    transform: translate(-50%, -50%);
+    animation: sparklePop 900ms ease-out forwards;
+  }
+  
+  @keyframes sparklePop{
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+  }
+  
+
+  /* ===== I love you pulse ===== */
+.bottom .love{
+    animation: lovePulse 1.3s ease-in-out infinite;
+  }
+  
+  @keyframes lovePulse{
+    0%,100%{ transform: scale(1);    text-shadow: 0 0 4px rgba(255,45,85,.90), 0 0 8px rgba(255,45,85,.55); }
+    50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
