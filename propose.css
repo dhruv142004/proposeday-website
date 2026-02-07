@@ -141,17 +141,24 @@ body{
   border: 1px solid rgba(255,255,255,0.25);
 }
 
-.bottom .love{
-  text-align:center;
+.bottom .love {
+  font-size: clamp(24px, 5vw, 38px); /* bigger */
   font-weight: 900;
-  font-size: clamp(19px, 3.6vw, 32px);
 
   color: #ff2d55;
-  letter-spacing: .3px;
+
+  background: rgba(0,0,0,0.45);
+  padding: 12px 26px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  letter-spacing: 1px;
 
   text-shadow:
-    0 0 4px rgba(255,45,85,0.9),
-    0 0 8px rgba(255,45,85,0.6);
+    0 0 6px rgba(255,45,85,0.95),
+    0 0 14px rgba(255,45,85,0.7),
+    0 0 26px rgba(255,45,85,0.4);
 
   animation: lovePulse 1.3s ease-in-out infinite;
 }
@@ -649,6 +656,7 @@ body{
     bottom: clamp(55px, 10vh, 95px);
     width: clamp(115px, 30vw, 175px);
     height: clamp(210px, 50vw, 320px);
+    bottom: 16%; 
   }
   .girl{ right: 6%; }
   .hint{ bottom: 10px; }
@@ -661,6 +669,7 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
 
