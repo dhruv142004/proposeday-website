@@ -177,13 +177,19 @@ body{
 .stage::after{
   content:"";
   position:absolute;
-  inset:0;
-  background:
-    radial-gradient(80% 70% at 50% 40%, transparent 58%, rgba(0,0,0,.45) 100%),
-    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.32));
+  inset:-40px; /* bleed out to avoid edges */
   pointer-events:none;
   z-index: 1;
+
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(255,77,166,.16), transparent 60%),
+    radial-gradient(120% 90% at 50% 95%, rgba(76,195,255,.14), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.34));
+
+  filter: blur(14px);     /* ✅ smooths the band */
+  opacity: 0.95;
 }
+
 
 /* ===== Ground ===== */
 .ground{
@@ -562,7 +568,7 @@ body{
   inset:0;
   pointer-events:none;
   overflow:hidden;
-  z-index: 4;
+  z-index: 5;
 }
 .petalWrap{
   position:absolute;
@@ -580,7 +586,12 @@ body{
   will-change: transform;
   animation: swayX ease-in-out infinite;
 }
-@keyframes fallY{ to { transform: translateY(140%); } }
+:root{ --fallDist: 900px; } /* default fallback */
+
+@keyframes fallY{
+  to { transform: translateY(var(--fallDist)); }
+}
+
 @keyframes swayX{
   0%,100% { transform: translateX(calc(var(--sway) * -1)) rotate(0deg); }
   50%     { transform: translateX(var(--sway)) rotate(180deg); }
@@ -624,8 +635,9 @@ body{
   @keyframes boyMove{
     0%   { left:-40%; transform: translateY(0) scale(1) rotate(0deg); }
     40%  { left:18%;  transform: translateY(0) scale(1) rotate(0deg); }
-    55%  { left:22%;  transform: translateY(0) scale(1) rotate(0deg); }
-    70%  { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
-    100% { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    55%  { left:25%;  transform: translateY(0) scale(1) rotate(0deg); }
+    70%  { left:25%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    100% { left:25%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
