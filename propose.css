@@ -29,6 +29,10 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    overscroll-behavior: none;
+
+    position: 0;
+    inset: 0;
     background:
       radial-gradient(1200px 600px at 50% 15%, rgba(255,77,166,.18), transparent 60%),
       radial-gradient(900px 520px at 20% 80%, rgba(76,195,255,.14), transparent 55%),
@@ -664,4 +668,5 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
 
