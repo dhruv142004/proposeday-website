@@ -10,6 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const titlePill = document.querySelector(".top .pill");
 
+  const nameHeartsLayer = document.getElementById("nameHeartsLayer");
+  const burstLayer = document.getElementById("burstLayer");
+
+  const boyTag = document.querySelector("#boy .nameTag");
+  const girlTag = document.querySelector(".girl .nameTag");
+
+
   // =========================
   // 0) Stable mobile viewport
   // =========================
@@ -141,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
       boy.style.animation = "none";
       void boy.offsetWidth; // reflow
       boy.style.animation = "";
+
+      scheduleBurst();
     });
   }
 
@@ -171,4 +180,100 @@ document.addEventListener("DOMContentLoaded", () => {
     // gentle continuous sparkles
     setInterval(sparkleOnce, 450);
   }, 300);
+
+  function spawnNameHeart(tagEl){
+  if (!tagEl || !nameHeartsLayer) return;
+
+  const r = tagEl.getBoundingClientRect();
+  const s = stage.getBoundingClientRect();
+
+  const heart = document.createElement("div");
+  heart.className = "nameHeart";
+
+  // position near the tag (convert viewport -> stage coords)
+  const x = (r.left + r.width * (0.3 + Math.random()*0.4)) - s.left;
+  const y = (r.top  + r.height * (0.2 + Math.random()*0.6)) - s.top;
+
+  heart.style.left = x + "px";
+  heart.style.top  = y + "px";
+
+  // random drift
+  const dx = (-18 + Math.random()*36).toFixed(1) + "px";
+  const dy = (30 + Math.random()*60).toFixed(1) + "px";
+  heart.style.setProperty("--dx", dx);
+  heart.style.setProperty("--dy", dy);
+
+  const size = 8 + Math.random()*10;
+  heart.style.width = size + "px";
+  heart.style.height = size + "px";
+
+  const dur = 900 + Math.random()*1100;
+  heart.style.animationDuration = dur + "ms";
+
+  const op = (0.35 + Math.random()*0.45).toFixed(2);
+  heart.style.background = `rgba(255,77,166,${op})`;
+
+  nameHeartsLayer.appendChild(heart);
+  setTimeout(() => heart.remove(), dur + 60);
+}
+
+// spawn near both names
+setInterval(() => spawnNameHeart(boyTag), 280);
+setInterval(() => spawnNameHeart(girlTag), 320);
+
+  let burstTimeout = null;
+
+function burstCelebration(){
+  if (!burstLayer || !stage) return;
+
+  const s = stage.getBoundingClientRect();
+  const originX = s.width * 0.52;
+  const originY = s.height * 0.42;
+
+  const count = 42;
+
+  for (let i = 0; i < count; i++){
+    const p = document.createElement("div");
+    p.className = "burstPiece";
+
+    p.style.left = originX + "px";
+    p.style.top  = originY + "px";
+
+    // scatter direction
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 140 + Math.random() * 240;
+
+    const bx = Math.cos(angle) * dist;
+    const by = Math.sin(angle) * dist - (60 + Math.random()*80);
+
+    p.style.setProperty("--bx", bx.toFixed(1) + "px");
+    p.style.setProperty("--by", by.toFixed(1) + "px");
+
+    // random color
+    const palette = [
+      "rgba(255,77,166,.95)",
+      "rgba(181,108,255,.95)",
+      "rgba(76,195,255,.95)",
+      "rgba(255,255,255,.95)"
+    ];
+    p.style.background = palette[(Math.random()*palette.length)|0];
+
+    const size = 7 + Math.random()*10;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+
+    burstLayer.appendChild(p);
+    setTimeout(() => p.remove(), 1200);
+  }
+}
+
+// schedule burst each loop of boy animation (7.5s)
+function scheduleBurst(){
+  clearTimeout(burstTimeout);
+  // kneel starts near 70% => 5.25s, burst right after:
+  burstTimeout = setTimeout(burstCelebration, 5450);
+}
+scheduleBurst();
+
 });
+
