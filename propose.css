@@ -390,7 +390,7 @@ body{
   background: var(--skin);
   border-radius: 999px;
   transform-origin: 10% 50%;
-  animation: offer 2.2s ease-in-out infinite;
+  animation: offer 2.2s ease-in-out forwards;
   box-shadow: 0 12px 18px var(--shadow);
 }
 .boy .hand{
@@ -505,13 +505,18 @@ body{
 /* Character positions + kneel */
 .boy{
   left: -25%;
-  animation: boyMove 7.5s ease-in-out infinite;
+  animation: boyMove 7.5s ease-in-out forwards;
   transform-origin: 50% 100%;
 }
+/* JS replay trigger */
+.boy.replay{
+  animation: none !important;
+}
 
-.boy .leg.left{ animation: standLeg 7.5s ease-in-out infinite; transform-origin: 50% 0%; }
-.boy .leg.right{ animation: kneelLeg 7.5s ease-in-out infinite; transform-origin: 50% 0%; }
-.boy .body{ animation: torsoShift 7.5s ease-in-out infinite; transform-origin: 50% 100%; }
+
+.boy .leg.left{ animation: standLeg 7.5s ease-in-out forwards; transform-origin: 50% 0%; }
+.boy .leg.right{ animation: kneelLeg 7.5s ease-in-out forwards; transform-origin: 50% 0%; }
+.boy .body{ animation: torsoShift 7.5s ease-in-out forwards; transform-origin: 50% 100%; }
 
 @keyframes boyMove{
   0%   { left:-25%; transform: translateY(0) scale(1) rotate(0deg); }
@@ -539,7 +544,7 @@ body{
 
 .girl{
   right: 10%;
-  animation: girlSway 2.6s ease-in-out infinite;
+  animation: girlSway 2.6s ease-in-out forwards;
   transform-origin: 50% 100%;
 }
 
@@ -737,6 +742,7 @@ body{
   10%  { opacity: 1; }
   100% { transform: translate(var(--bx), var(--by)) rotate(45deg) scale(1.2); opacity: 0; }
 }
+
 
 
 
