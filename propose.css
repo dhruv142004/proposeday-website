@@ -1,3 +1,10 @@
+/* =========================================================
+   PROPOSE SITE – CLEAN, STABLE (PHONE + LAPTOP)
+   Fixes:
+   - No broken braces / duplicate media blocks
+   - No vh in petals/hearts animations (prevents up/down drift)
+   - Stable mobile viewport sizing via --vh (set by JS)
+   ========================================================= */
 
 :root{
   --bg1:#0b1020;
@@ -141,24 +148,17 @@ body{
   border: 1px solid rgba(255,255,255,0.25);
 }
 
-.bottom .love {
-  font-size: clamp(24px, 5vw, 38px); /* bigger */
+.bottom .love{
+  text-align:center;
   font-weight: 900;
+  font-size: clamp(16px, 3.6vw, 28px);
 
   color: #ff2d55;
-
-  background: rgba(0,0,0,0.45);
-  padding: 12px 26px;
-  border-radius: 999px;
-
-  border: 1px solid rgba(255,255,255,0.25);
-
-  letter-spacing: 1px;
+  letter-spacing: .3px;
 
   text-shadow:
-    0 0 6px rgba(255,45,85,0.95),
-    0 0 14px rgba(255,45,85,0.7),
-    0 0 26px rgba(255,45,85,0.4);
+    0 0 4px rgba(255,45,85,0.9),
+    0 0 8px rgba(255,45,85,0.6);
 
   animation: lovePulse 1.3s ease-in-out infinite;
 }
@@ -180,44 +180,17 @@ body{
   box-shadow: 0 20px 70px rgba(0,0,0,.40);
   z-index: 1;
 }
+
 .stage::after{
   content:"";
   position:absolute;
-  inset:-40px; /* bleed out to avoid edges */
-  pointer-events:none;
-  z-index: 10;
-
-  background:
-    radial-gradient(120% 90% at 50% 15%, rgba(255,77,166,.16), transparent 60%),
-    radial-gradient(120% 90% at 50% 95%, rgba(76,195,255,.14), transparent 60%),
-    linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.34));
-
-  filter: blur(14px);     /* ✅ smooths the band */
-  opacity: 0.95;
-}
-
-
-/* Subtle noise to remove color banding */
-.stage::before{
-  content:"";
-  position:absolute;
   inset:0;
+  background:
+    radial-gradient(80% 70% at 50% 40%, transparent 58%, rgba(0,0,0,.45) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.32));
   pointer-events:none;
-  z-index:0;
-
-  background-image:
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      rgba(255,255,255,0.015),
-      rgba(255,255,255,0.015) 1px,
-      transparent 1px,
-      transparent 2px
-    );
-
-  opacity:0.35;
+  z-index: 1;
 }
-
-
 
 /* ===== Ground ===== */
 .ground{
@@ -237,7 +210,7 @@ body{
   left:50%;
   bottom: 16px;
   transform: translateX(-50%);
-  z-index: 60;
+  z-index: 20;
 
   padding: 8px 16px;
   border-radius: 999px;
@@ -271,7 +244,7 @@ body{
   bottom: clamp(18px, 5vh, 55px);
   width: clamp(120px, 12vw, 160px);
   height: clamp(240px, 24vw, 340px);
-  z-index: 20;
+  z-index: 2;
 }
 
 /* Name tag attached to each person */
@@ -549,9 +522,9 @@ body{
 @keyframes boyMove{
   0%   { left:-25%; transform: translateY(0) scale(1) rotate(0deg); }
   40%  { left:20%;  transform: translateY(0) scale(1) rotate(0deg); }
-  55%  { left:28%;  transform: translateY(0) scale(1) rotate(0deg); }
-  70%  { left:28%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
-  100% { left:28%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  55%  { left:24%;  transform: translateY(0) scale(1) rotate(0deg); }
+  70%  { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  100% { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
 }
 @keyframes torsoShift{
   0%,55%{ transform: translateX(-50%) translateY(0) rotate(0deg); }
@@ -596,8 +569,7 @@ body{
   inset:0;
   pointer-events:none;
   overflow:hidden;
-
-  z-index: 50;              /* ✅ above stage overlays */
+  z-index: 4;
 }
 .petalWrap{
   position:absolute;
@@ -606,8 +578,8 @@ body{
   animation: fallY linear forwards;
 }
 .petal{
-  width: 18px;
-  height: 14px;
+  width: 16px;
+  height: 12px;
   border-radius: 70% 30% 75% 25%;
   opacity: .95;
   filter: drop-shadow(0 8px 10px rgba(0,0,0,.2));
@@ -615,12 +587,7 @@ body{
   will-change: transform;
   animation: swayX ease-in-out infinite;
 }
-:root{ --fallDist: 900px; } /* default fallback */
-
-@keyframes fallY{
-  to { transform: translateY(var(--fallDist, 900px)); }
-}
-
+@keyframes fallY{ to { transform: translateY(140%); } }
 @keyframes swayX{
   0%,100% { transform: translateX(calc(var(--sway) * -1)) rotate(0deg); }
   50%     { transform: translateX(var(--sway)) rotate(180deg); }
@@ -657,7 +624,6 @@ body{
     bottom: clamp(55px, 10vh, 95px);
     width: clamp(115px, 30vw, 175px);
     height: clamp(210px, 50vw, 320px);
-    bottom: 16%; 
   }
   .girl{ right: 6%; }
   .hint{ bottom: 10px; }
@@ -665,15 +631,8 @@ body{
   @keyframes boyMove{
     0%   { left:-40%; transform: translateY(0) scale(1) rotate(0deg); }
     40%  { left:18%;  transform: translateY(0) scale(1) rotate(0deg); }
-    55%  { left:30%;  transform: translateY(0) scale(1) rotate(0deg); }
-    70%  { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
-    100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    55%  { left:22%;  transform: translateY(0) scale(1) rotate(0deg); }
+    70%  { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    100% { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
-
-
-
-
-
-
-
