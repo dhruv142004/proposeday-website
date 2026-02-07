@@ -132,7 +132,7 @@
   }
   
   
-  .love{ font-size: clamp(16px, 2vw, 26px); }
+  .love{ font-size: clamp(18px, 2vw, 28px); }
   
   .stage{
     position:relative;
@@ -653,4 +653,5 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
 
