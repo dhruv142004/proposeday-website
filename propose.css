@@ -26,33 +26,37 @@
   }
   
   body{
-    /* IMPORTANT: do NOT center vertically */
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;   /* center horizontally only */
-    align-items: stretch;      /* start from top */
+    overflow-x: hidden;
     background:
       radial-gradient(1200px 600px at 50% 15%, rgba(255,77,166,.18), transparent 60%),
       radial-gradient(900px 520px at 20% 80%, rgba(76,195,255,.14), transparent 55%),
-      linear-gradient(135deg, #0b1020, #2b124f);
-    overflow: hidden;
+      linear-gradient(135deg, var(--bg1), var(--bg2));
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
   
+  /* Center the layout using margin auto (not flex) */
   .phone{
-    margin: 0;
-    padding: 0;
-    height: 100dvh;              /* key: true viewport on mobile */
-    display:flex;
-    flex-direction:column;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;                 /* ✅ true center */
+    height: 100dvh;
+  
+    display: flex;
+    flex-direction: column;
     gap: 12px;
-    padding:
-      calc(env(safe-area-inset-top) + 14px)
-      14px
-      calc(env(safe-area-inset-bottom) + 14px);
+  
+    /* symmetric padding */
+    padding: 14px;
+  
+    /* safe area added symmetrically */
+    padding-top: calc(14px + env(safe-area-inset-top));
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    padding-left: calc(14px + env(safe-area-inset-left));
+    padding-right: calc(14px + env(safe-area-inset-right));
   }
-    /* Desktop/laptop: keep your nice roomy stage */
+  keep your nice roomy stage */
   
     @media (min-width: 900px){
     .stage{ min-height: 390px; }
@@ -60,9 +64,6 @@
   
   /* Phone: prevent characters from dropping out of frame */
   @media (max-width: 600px){
-    .phone{
-      margin: auto;
-      padding: auto;
     .person{
       bottom: clamp(55px, 10vh, 95px);     /* lift them UP on phone */
       width: clamp(115px, 30vw, 175px);
