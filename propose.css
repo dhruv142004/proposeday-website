@@ -151,7 +151,7 @@ body{
 .bottom .love{
   text-align:center;
   font-weight: 900;
-  font-size: clamp(16px, 3.6vw, 28px);
+  font-size: clamp(20px, 4.2vw, 34px);
 
   color: #ff2d55;
   letter-spacing: .3px;
@@ -649,5 +649,6 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
