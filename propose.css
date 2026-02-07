@@ -185,7 +185,7 @@ body{
   position:absolute;
   inset:-40px; /* bleed out to avoid edges */
   pointer-events:none;
-  z-index: 1;
+  z-index: 10;
 
   background:
     radial-gradient(120% 90% at 50% 15%, rgba(255,77,166,.16), transparent 60%),
@@ -237,7 +237,7 @@ body{
   left:50%;
   bottom: 16px;
   transform: translateX(-50%);
-  z-index: 20;
+  z-index: 60;
 
   padding: 8px 16px;
   border-radius: 999px;
@@ -271,7 +271,7 @@ body{
   bottom: clamp(18px, 5vh, 55px);
   width: clamp(120px, 12vw, 160px);
   height: clamp(240px, 24vw, 340px);
-  z-index: 2;
+  z-index: 20;
 }
 
 /* Name tag attached to each person */
@@ -596,7 +596,9 @@ body{
   inset:0;
   pointer-events:none;
   overflow:hidden;
-  z-index: 5;
+
+  z-index: 50;              /* ✅ above stage overlays */
+}
 }
 .petalWrap{
   position:absolute;
@@ -605,8 +607,8 @@ body{
   animation: fallY linear forwards;
 }
 .petal{
-  width: 16px;
-  height: 12px;
+  width: 18px;
+  height: 14px;
   border-radius: 70% 30% 75% 25%;
   opacity: .95;
   filter: drop-shadow(0 8px 10px rgba(0,0,0,.2));
@@ -669,6 +671,7 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
 
