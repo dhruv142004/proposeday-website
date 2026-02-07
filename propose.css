@@ -39,19 +39,38 @@
   }
   
   .phone{
-    height: 100dvh;            /* full phone/laptop viewport */
-    width: min(900px, 100%);   /* laptop fits nicely, phone = full */
-    display: flex;
-    flex-direction: column;
+    height: 100dvh;              /* key: true viewport on mobile */
+    display:flex;
+    flex-direction:column;
     gap: 12px;
-  
-    /* Safe-area padding for phone notch */
     padding:
       calc(env(safe-area-inset-top) + 14px)
       14px
       calc(env(safe-area-inset-bottom) + 14px);
+    
+    /* Desktop/laptop: keep your nice roomy stage */
+@media (min-width: 900px){
+    .stage{ min-height: 390px; }
   }
   
+  /* Phone: prevent characters from dropping out of frame */
+  @media (max-width: 600px){
+    .person{
+      bottom: clamp(55px, 10vh, 95px);     /* lift them UP on phone */
+      width: clamp(115px, 30vw, 175px);
+      height: clamp(210px, 50vw, 320px);   /* shorter so they fit */
+    }
+  
+    .girl{ right: 6%; }
+  
+    /* optional: move hint up slightly */
+    .hint{ bottom: 10px; }
+  }
+  
+  }
+  
+
+   
  /* ===============================
    CENTER + CLEAR TEXT FIX
 ================================ */
@@ -118,14 +137,14 @@
   .stage{
     position:relative;
     flex: 1 1 auto;
-    min-height: 0;
+    min-height: 0;               /* important in flex */
     border-radius: 22px;
     overflow:hidden;
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.12);
     box-shadow: 0 20px 70px rgba(0,0,0,.40);
-    touch-action: manipulation;
   }
+  
   .stage::after{
     content:"";
     position:absolute;
@@ -207,13 +226,15 @@
   }
   
   /* People (desktop default) */
+  
   .person{
     position:absolute;
-    bottom: 8%;
+    bottom: clamp(18px, 5vh, 55px);  /* never too low */
     width: clamp(120px, 12vw, 160px);
     height: clamp(240px, 24vw, 340px);
     z-index: 2;
   }
+
   
   /* Face + head */
   .head{
