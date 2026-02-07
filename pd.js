@@ -141,15 +141,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // 3) Tap anywhere to replay
   // =========================
-  if (stage && boy) {
-    stage.addEventListener("click", (e) => {
-      if (e.target && e.target.id === "petalToggleBtn") return;
+ if (stage) {
+  stage.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "petalToggleBtn") return;
 
-      boy.style.animation = "none";
-      void boy.offsetWidth; // reflow
-      boy.style.animation = "";
+    stage.classList.remove("replay");
+    void stage.offsetWidth; // force reflow
+    stage.classList.add("replay");
 
-      scheduleBurst();
+    scheduleBurst();
+  });
+
+  // run once on load
+  stage.classList.add("replay");
+}
+
+}
+
     });
   }
 
@@ -276,4 +284,5 @@ function scheduleBurst(){
 scheduleBurst();
 
 });
+
 
