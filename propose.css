@@ -522,9 +522,9 @@ body{
 @keyframes boyMove{
   0%   { left:-25%; transform: translateY(0) scale(1) rotate(0deg); }
   40%  { left:20%;  transform: translateY(0) scale(1) rotate(0deg); }
-  55%  { left:24%;  transform: translateY(0) scale(1) rotate(0deg); }
-  70%  { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
-  100% { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  55%  { left:30%;  transform: translateY(0) scale(1) rotate(0deg); }
+  70%  { left:30%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  100% { left:30%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
 }
 @keyframes torsoShift{
   0%,55%{ transform: translateX(-50%) translateY(0) rotate(0deg); }
@@ -644,9 +644,10 @@ body{
   @keyframes boyMove{
     0%   { left:-40%; transform: translateY(0) scale(1) rotate(0deg); }
     40%  { left:18%;  transform: translateY(0) scale(1) rotate(0deg); }
-    55%  { left:22%;  transform: translateY(0) scale(1) rotate(0deg); }
-    70%  { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
-    100% { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    55%  { left:30%;  transform: translateY(0) scale(1) rotate(0deg); }
+    70%  { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
+    100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
