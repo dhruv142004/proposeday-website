@@ -157,7 +157,7 @@
   
   .nameTag{
     position:absolute;
-    top: 12px;
+    top: 14px;
     z-index: 3;
     padding: 8px 12px;
     border-radius: 999px;
@@ -653,3 +653,4 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
