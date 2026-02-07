@@ -1,12 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  function setVH(){
-  const h = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
-  document.documentElement.style.setProperty("--vh", (h * 0.01) + "px");
+ // ===== Lock viewport height (Safari + Chrome mobile) =====
+function lockVH(){
+  const h = window.visualViewport
+    ? window.visualViewport.height
+    : window.innerHeight;
+
+  document.documentElement.style
+    .setProperty("--vh", h * 0.01 + "px");
 }
-setVH();
-window.addEventListener("resize", setVH);
-if (window.visualViewport) window.visualViewport.addEventListener("resize", setVH);
+
+lockVH();
+
+window.addEventListener("resize", lockVH);
+if (window.visualViewport){
+  window.visualViewport.addEventListener("resize", lockVH);
+}
+
     // =========================
     // 1) Background floating hearts
     // =========================
@@ -146,4 +156,5 @@ if (window.visualViewport) window.visualViewport.addEventListener("resize", setV
 
   });
   
+
 
