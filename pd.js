@@ -1,12 +1,9 @@
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const stage = document.getElementById("stage");
   const boy = document.getElementById("boy");
 
   const heartsWrap = document.getElementById("hearts");
   const petalsLayer = document.getElementById("petalsLayer");
-  const toggleBtn = document.getElementById("petalToggleBtn");
 
   const titlePill = document.querySelector(".top .pill");
 
@@ -15,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const boyTag = document.querySelector("#boy .nameTag");
   const girlTag = document.querySelector(".girl .nameTag");
-
 
   // =========================
   // 0) Stable mobile viewport
@@ -43,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.visualViewport) window.visualViewport.addEventListener("resize", setFallDist);
 
   // =========================
-  // 1) Background hearts
+  // 1) Background floating hearts
   // =========================
   function addHeart() {
     if (!heartsWrap) return;
@@ -62,19 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
     heartsWrap.appendChild(h);
     setTimeout(() => h.remove(), 17000);
   }
-
-  // seed + continuous
   for (let i = 0; i < 14; i++) addHeart();
   setInterval(addHeart, 850);
 
   // =========================
   // 2) Petal shower (ALWAYS ON)
   // =========================
-  let petalsOn = true;
   let petalTimer = null;
 
   function spawnPetal() {
-    if (!petalsOn || !petalsLayer) return;
+    if (!petalsLayer) return;
 
     const wrap = document.createElement("div");
     wrap.className = "petalWrap";
@@ -104,65 +97,28 @@ document.addEventListener("DOMContentLoaded", () => {
     wrap.appendChild(petal);
     petalsLayer.appendChild(wrap);
 
-    // cleanup after fall ends
     setTimeout(() => wrap.remove(), (fallDur + 0.6) * 1000);
   }
 
   function startPetals() {
     if (!petalsLayer || petalTimer) return;
 
-    // quick burst so you see it instantly
     for (let i = 0; i < 18; i++) setTimeout(spawnPetal, i * 90);
-
-    // continuous rain
     petalTimer = setInterval(spawnPetal, 180);
   }
 
-  function stopPetals() {
+  function restartPetals() {
+    if (!petalsLayer) return;
     clearInterval(petalTimer);
     petalTimer = null;
-    if (petalsLayer) petalsLayer.innerHTML = "";
+    petalsLayer.innerHTML = "";
+    startPetals();
   }
 
-  // start immediately
   startPetals();
 
-  // optional toggle button
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      petalsOn = !petalsOn;
-      toggleBtn.textContent = petalsOn ? "Petals: ON" : "Petals: OFF";
-      if (petalsOn) startPetals();
-      else stopPetals();
-    });
-  }
-
   // =========================
-  // 3) Tap anywhere to replay
-  // =========================
- if (stage) {
-  stage.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "petalToggleBtn") return;
-
-    stage.classList.remove("replay");
-    void stage.offsetWidth; // force reflow
-    stage.classList.add("replay");
-
-    scheduleBurst();
-  });
-
-  // run once on load
-  stage.classList.add("replay");
-}
-
-}
-
-    });
-  }
-
-  // =========================
-  // 4) Sparkles on title
+  // 3) Sparkles on title
   // =========================
   function sparkleOnce() {
     if (!titlePill) return;
@@ -171,118 +127,128 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = document.createElement("div");
     s.className = "sparkle";
 
-    const x = r.left + Math.random() * r.width;
-    const y = r.top + Math.random() * r.height;
-
-    s.style.left = x + "px";
-    s.style.top = y + "px";
+    s.style.left = (r.left + Math.random() * r.width) + "px";
+    s.style.top = (r.top + Math.random() * r.height) + "px";
 
     document.body.appendChild(s);
     setTimeout(() => s.remove(), 950);
   }
 
   setTimeout(() => {
-    // quick burst (visible immediately)
     for (let i = 0; i < 10; i++) setTimeout(sparkleOnce, i * 120);
-
-    // gentle continuous sparkles
     setInterval(sparkleOnce, 450);
   }, 300);
 
-  function spawnNameHeart(tagEl){
-  if (!tagEl || !nameHeartsLayer) return;
+  // =========================
+  // 4) Floating hearts near names
+  // =========================
+  function spawnNameHeart(tagEl) {
+    if (!tagEl || !nameHeartsLayer || !stage) return;
 
-  const r = tagEl.getBoundingClientRect();
-  const s = stage.getBoundingClientRect();
+    const r = tagEl.getBoundingClientRect();
+    const s = stage.getBoundingClientRect();
 
-  const heart = document.createElement("div");
-  heart.className = "nameHeart";
+    const heart = document.createElement("div");
+    heart.className = "nameHeart";
 
-  // position near the tag (convert viewport -> stage coords)
-  const x = (r.left + r.width * (0.3 + Math.random()*0.4)) - s.left;
-  const y = (r.top  + r.height * (0.2 + Math.random()*0.6)) - s.top;
+    const x = (r.left + r.width * (0.3 + Math.random() * 0.4)) - s.left;
+    const y = (r.top + r.height * (0.2 + Math.random() * 0.6)) - s.top;
 
-  heart.style.left = x + "px";
-  heart.style.top  = y + "px";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
 
-  // random drift
-  const dx = (-18 + Math.random()*36).toFixed(1) + "px";
-  const dy = (30 + Math.random()*60).toFixed(1) + "px";
-  heart.style.setProperty("--dx", dx);
-  heart.style.setProperty("--dy", dy);
+    const dx = (-18 + Math.random() * 36).toFixed(1) + "px";
+    const dy = (30 + Math.random() * 60).toFixed(1) + "px";
+    heart.style.setProperty("--dx", dx);
+    heart.style.setProperty("--dy", dy);
 
-  const size = 8 + Math.random()*10;
-  heart.style.width = size + "px";
-  heart.style.height = size + "px";
+    const size = 8 + Math.random() * 10;
+    heart.style.width = size + "px";
+    heart.style.height = size + "px";
 
-  const dur = 900 + Math.random()*1100;
-  heart.style.animationDuration = dur + "ms";
+    const dur = 900 + Math.random() * 1100;
+    heart.style.animationDuration = dur + "ms";
 
-  const op = (0.35 + Math.random()*0.45).toFixed(2);
-  heart.style.background = `rgba(255,77,166,${op})`;
+    const op = (0.35 + Math.random() * 0.45).toFixed(2);
+    heart.style.background = `rgba(255,77,166,${op})`;
 
-  nameHeartsLayer.appendChild(heart);
-  setTimeout(() => heart.remove(), dur + 60);
-}
+    nameHeartsLayer.appendChild(heart);
+    setTimeout(() => heart.remove(), dur + 80);
+  }
 
-// spawn near both names
-setInterval(() => spawnNameHeart(boyTag), 280);
-setInterval(() => spawnNameHeart(girlTag), 320);
+  setInterval(() => spawnNameHeart(boyTag), 280);
+  setInterval(() => spawnNameHeart(girlTag), 320);
 
-  let burstTimeout = null;
+  // =========================
+  // 5) Final celebration burst
+  // =========================
+  function burstCelebration() {
+    if (!burstLayer || !stage) return;
 
-function burstCelebration(){
-  if (!burstLayer || !stage) return;
+    const s = stage.getBoundingClientRect();
+    const originX = s.width * 0.52;
+    const originY = s.height * 0.42;
 
-  const s = stage.getBoundingClientRect();
-  const originX = s.width * 0.52;
-  const originY = s.height * 0.42;
-
-  const count = 42;
-
-  for (let i = 0; i < count; i++){
-    const p = document.createElement("div");
-    p.className = "burstPiece";
-
-    p.style.left = originX + "px";
-    p.style.top  = originY + "px";
-
-    // scatter direction
-    const angle = Math.random() * Math.PI * 2;
-    const dist  = 140 + Math.random() * 240;
-
-    const bx = Math.cos(angle) * dist;
-    const by = Math.sin(angle) * dist - (60 + Math.random()*80);
-
-    p.style.setProperty("--bx", bx.toFixed(1) + "px");
-    p.style.setProperty("--by", by.toFixed(1) + "px");
-
-    // random color
     const palette = [
       "rgba(255,77,166,.95)",
       "rgba(181,108,255,.95)",
       "rgba(76,195,255,.95)",
       "rgba(255,255,255,.95)"
     ];
-    p.style.background = palette[(Math.random()*palette.length)|0];
 
-    const size = 7 + Math.random()*10;
-    p.style.width = size + "px";
-    p.style.height = size + "px";
+    for (let i = 0; i < 42; i++) {
+      const p = document.createElement("div");
+      p.className = "burstPiece";
 
-    burstLayer.appendChild(p);
-    setTimeout(() => p.remove(), 1200);
+      p.style.left = originX + "px";
+      p.style.top = originY + "px";
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 140 + Math.random() * 240;
+
+      const bx = Math.cos(angle) * dist;
+      const by = Math.sin(angle) * dist - (60 + Math.random() * 80);
+
+      p.style.setProperty("--bx", bx.toFixed(1) + "px");
+      p.style.setProperty("--by", by.toFixed(1) + "px");
+
+      p.style.background = palette[(Math.random() * palette.length) | 0];
+
+      const size = 7 + Math.random() * 10;
+      p.style.width = size + "px";
+      p.style.height = size + "px";
+
+      burstLayer.appendChild(p);
+      setTimeout(() => p.remove(), 1200);
+    }
   }
-}
 
-// schedule burst each loop of boy animation (7.5s)
-function scheduleBurst(){
-  clearTimeout(burstTimeout);
-  // kneel starts near 70% => 5.25s, burst right after:
-  burstTimeout = setTimeout(burstCelebration, 5450);
-}
-scheduleBurst();
+  // =========================
+  // 6) Replay behavior (boy should NOT loop)
+  // =========================
+  function replayScene() {
+    // restart boy animation ONCE
+    if (boy) {
+      boy.style.animation = "none";
+      void boy.offsetWidth;
+      boy.style.animation = "";
+    }
 
+    // restart petals so iOS never "freezes" them
+    restartPetals();
+
+    // celebration burst after kneel moment (~70% of 7.5s)
+    setTimeout(burstCelebration, 5450);
+  }
+
+  // play once on load
+  replayScene();
+
+  // tap anywhere on stage to replay
+  if (stage) {
+    stage.addEventListener("click", (e) => {
+      if (e.target && e.target.id === "petalToggleBtn") return;
+      replayScene();
+    }, { passive: true });
+  }
 });
-
-
