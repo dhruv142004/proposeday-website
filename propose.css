@@ -592,7 +592,7 @@
   /* Wrapper: only FALLS (translateY) */
   .petalWrap{
     position:absolute;
-    top:-15vh;
+    top:-20%;
     will-change: transform;
     animation: fallY linear forwards;
   }
@@ -610,7 +610,7 @@
   }
   
   @keyframes fallY{
-    to { transform: translateY(135vh); }
+    to { transform: translateY(140%); }
   }
   
   @keyframes swayX{
@@ -663,6 +663,7 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
 
 
 
