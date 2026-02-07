@@ -599,7 +599,6 @@ body{
 
   z-index: 50;              /* ✅ above stage overlays */
 }
-}
 .petalWrap{
   position:absolute;
   top: -20%;
@@ -671,6 +670,7 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
 
