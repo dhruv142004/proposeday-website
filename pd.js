@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+const stage = document.getElementById("stage");
+const petalsLayer = document.getElementById("petalsLayer");
+
+function setFallDist(){
+  const h = stage ? stage.getBoundingClientRect().height : window.innerHeight;
+  document.documentElement.style.setProperty("--fallDist", (h + 250) + "px");
+}
+setFallDist();
+window.addEventListener("resize", setFallDist);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", setFallDist);
+
 
   const stage = document.getElementById("stage");
 
@@ -166,6 +177,7 @@ if (window.visualViewport){
 
   });
   
+
 
 
 
