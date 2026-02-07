@@ -144,7 +144,7 @@ body{
 .bottom .love{
   text-align:center;
   font-weight: 900;
-  font-size: clamp(22px, 5vw, 36px);
+  font-size: clamp(19px, 3.6vw, 32px);
 
   color: #ff2d55;
   letter-spacing: .3px;
@@ -173,6 +173,22 @@ body{
   box-shadow: 0 20px 70px rgba(0,0,0,.40);
   z-index: 1;
 }
+.stage::after{
+  content:"";
+  position:absolute;
+  inset:-40px; /* bleed out to avoid edges */
+  pointer-events:none;
+  z-index: 1;
+
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(255,77,166,.16), transparent 60%),
+    radial-gradient(120% 90% at 50% 95%, rgba(76,195,255,.14), transparent 60%),
+    linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.34));
+
+  filter: blur(14px);     /* ✅ smooths the band */
+  opacity: 0.95;
+}
+
 
 /* Subtle noise to remove color banding */
 .stage::before{
@@ -526,9 +542,9 @@ body{
 @keyframes boyMove{
   0%   { left:-25%; transform: translateY(0) scale(1) rotate(0deg); }
   40%  { left:20%;  transform: translateY(0) scale(1) rotate(0deg); }
-  55%  { left:24%;  transform: translateY(0) scale(1) rotate(0deg); }
-  70%  { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
-  100% { left:24%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  55%  { left:28%;  transform: translateY(0) scale(1) rotate(0deg); }
+  70%  { left:28%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
+  100% { left:28%;  transform: translateY(8px) scale(.95) rotate(-6deg); }
 }
 @keyframes torsoShift{
   0%,55%{ transform: translateX(-50%) translateY(0) rotate(0deg); }
@@ -645,5 +661,6 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
