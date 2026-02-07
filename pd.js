@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  function setVH(){
+  const h = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+  document.documentElement.style.setProperty("--vh", (h * 0.01) + "px");
+}
+setVH();
+window.addEventListener("resize", setVH);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", setVH);
     // =========================
     // 1) Background floating hearts
     // =========================
@@ -138,3 +146,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
   
+
