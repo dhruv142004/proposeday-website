@@ -27,6 +27,8 @@
   
   body{
     /* IMPORTANT: do NOT center vertically */
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;   /* center horizontally only */
     align-items: stretch;      /* start from top */
@@ -653,5 +655,6 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
 
 
