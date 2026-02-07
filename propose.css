@@ -619,7 +619,7 @@ body{
 :root{ --fallDist: 900px; } /* default fallback */
 
 @keyframes fallY{
-  to { transform: translateY(var(--fallDist)); }
+  to { transform: translateY(var(--fallDist, 900px)); }
 }
 
 @keyframes swayX{
@@ -671,6 +671,7 @@ body{
     100% { left:30%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
 
 
 
