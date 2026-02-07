@@ -41,6 +41,8 @@
   }
   
   .phone{
+    margin:0;
+    padding: 0;
     height: 100dvh;              /* key: true viewport on mobile */
     display:flex;
     flex-direction:column;
@@ -655,6 +657,7 @@
     50%    { transform: scale(1.06); text-shadow: 0 0 8px rgba(255,45,85,.95), 0 0 16px rgba(255,45,85,.65); }
   }
   
+
 
 
 
