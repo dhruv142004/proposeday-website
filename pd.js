@@ -1,5 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const stage = document.getElementById("stage");
+
+  function setFallDist(){
+  const h = stage ? stage.getBoundingClientRect().height : window.innerHeight;
+  document.documentElement.style.setProperty("--fallDist", (h + 200) + "px");
+}
+setFallDist();
+window.addEventListener("resize", setFallDist);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", setFallDist);
+
  // ===== Lock viewport height (Safari + Chrome mobile) =====
 function lockVH(){
   const h = window.visualViewport
@@ -156,5 +166,6 @@ if (window.visualViewport){
 
   });
   
+
 
 
