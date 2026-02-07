@@ -563,31 +563,44 @@ body{
   60%,100%{ transform: rotate(-25deg); }
 }
 
-/* ===== Petal shower (no vh) ===== */
+/* ===== Petal shower (STABLE + VISIBLE) ===== */
 .petalsLayer{
   position:absolute;
   inset:0;
   pointer-events:none;
   overflow:hidden;
-  z-index: 4;
+
+  z-index: 20; /* above stage overlay */
 }
+
+/* wrapper falls down */
 .petalWrap{
   position:absolute;
-  top: -20%;
+  top:-18%;
   will-change: transform;
   animation: fallY linear forwards;
 }
+
+/* inner petal sways + rotates */
 .petal{
   width: 16px;
   height: 12px;
   border-radius: 70% 30% 75% 25%;
-  opacity: .95;
-  filter: drop-shadow(0 8px 10px rgba(0,0,0,.2));
-  background: rgba(255,170,205,.9);
+  opacity: 1;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,.25));
+  background: rgba(255,170,205,.95);
+
   will-change: transform;
   animation: swayX ease-in-out infinite;
 }
-@keyframes fallY{ to { transform: translateY(140%); } }
+
+/* IMPORTANT: fall distance must be in px (set by JS) */
+:root{ --fallDist: 900px; }
+
+@keyframes fallY{
+  to { transform: translateY(var(--fallDist)); }
+}
+
 @keyframes swayX{
   0%,100% { transform: translateX(calc(var(--sway) * -1)) rotate(0deg); }
   50%     { transform: translateX(var(--sway)) rotate(180deg); }
@@ -636,3 +649,4 @@ body{
     100% { left:22%;  transform: translateY(10px) scale(.92) rotate(-8deg); }
   }
 }
+
